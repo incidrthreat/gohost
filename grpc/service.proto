@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+option go_package = ".;gohost";
+
+package gohost;
+
+message AliveRequest {
+    string hostname = 1;
+    bool alive = 2;
+}
+
+service GoHost {
+    rpc IsAlive (AliveRequest) returns (google.protobuf.Empty);
+}
