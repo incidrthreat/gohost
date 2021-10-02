@@ -1,4 +1,4 @@
-module github.com/incidrthreat/GoHost
+module github.com/incidrthreat/gohost
 
 go 1.15
 
