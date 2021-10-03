@@ -4,7 +4,7 @@ import (
 	"log"
 	"net"
 
-	pb "github.com/incidrthreat/gohost/grpc/gohost"
+	pb "github.com/incidrthreat/gohost/grpc/service"
 
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
@@ -15,6 +15,7 @@ const (
 )
 
 type server struct {
+	pb.UnimplementedGoHostServer
 	Alive bool
 }
 
@@ -28,6 +29,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
+
 	s := grpc.NewServer()
 	pb.RegisterGoHostServer{s, &server{}}
 	log.Printf("server listening at %v", lis.Addr())
