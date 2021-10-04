@@ -16,12 +16,11 @@ const (
 
 type server struct {
 	pb.UnimplementedGoHostServer
-	Alive bool
 }
 
-func (s *server) IsAlive(ctx context.Context, in *pb.AliveRequest) {
+func (s *server) IsAlive(ctx context.Context, in *pb.AliveRequest) (*pb.AliveResponse, error) {
 	log.Printf("Data Received from: %v", in.GetHostname())
-	s.Alive = in.GetAlive()
+	return &pb.AliveResponse{Response: true}, nil
 }
 
 func main() {
@@ -31,7 +30,8 @@ func main() {
 	}
 
 	s := grpc.NewServer()
-	pb.RegisterGoHostServer{s, &server{}}
+
+	pb.RegisterGoHostServer(s, &server{})
 	log.Printf("server listening at %v", lis.Addr())
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)

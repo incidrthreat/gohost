@@ -4,7 +4,6 @@ package gohost
 
 import (
 	context "context"
-	empty "github.com/golang/protobuf/ptypes/empty"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -19,7 +18,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type GoHostClient interface {
-	IsAlive(ctx context.Context, in *AliveRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	IsAlive(ctx context.Context, in *AliveRequest, opts ...grpc.CallOption) (*AliveResponse, error)
 }
 
 type goHostClient struct {
@@ -30,8 +29,8 @@ func NewGoHostClient(cc grpc.ClientConnInterface) GoHostClient {
 	return &goHostClient{cc}
 }
 
-func (c *goHostClient) IsAlive(ctx context.Context, in *AliveRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *goHostClient) IsAlive(ctx context.Context, in *AliveRequest, opts ...grpc.CallOption) (*AliveResponse, error) {
+	out := new(AliveResponse)
 	err := c.cc.Invoke(ctx, "/gohost.GoHost/IsAlive", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -43,7 +42,7 @@ func (c *goHostClient) IsAlive(ctx context.Context, in *AliveRequest, opts ...gr
 // All implementations must embed UnimplementedGoHostServer
 // for forward compatibility
 type GoHostServer interface {
-	IsAlive(context.Context, *AliveRequest) (*empty.Empty, error)
+	IsAlive(context.Context, *AliveRequest) (*AliveResponse, error)
 	mustEmbedUnimplementedGoHostServer()
 }
 
@@ -51,7 +50,7 @@ type GoHostServer interface {
 type UnimplementedGoHostServer struct {
 }
 
-func (UnimplementedGoHostServer) IsAlive(context.Context, *AliveRequest) (*empty.Empty, error) {
+func (UnimplementedGoHostServer) IsAlive(context.Context, *AliveRequest) (*AliveResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method IsAlive not implemented")
 }
 func (UnimplementedGoHostServer) mustEmbedUnimplementedGoHostServer() {}
