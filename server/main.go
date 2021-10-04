@@ -4,7 +4,7 @@ import (
 	"log"
 	"net"
 
-	pb "github.com/incidrthreat/gohost/grpc/service"
+	pb "github.com/incidrthreat/gohost/service"
 
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
