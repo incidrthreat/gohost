@@ -1,6 +1,7 @@
 syntax = "proto3";
 
-import "google/protobuf/empty.proto";
+// import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
 
 option go_package = ".;gohost";
 
@@ -11,6 +12,15 @@ message AliveRequest {
     bool alive = 2;
 }
 
+message AliveResponse {
+    bool response = 1;
+}
+
 service GoHost {
-    rpc IsAlive (AliveRequest) returns (google.protobuf.Empty);
+    rpc IsAlive (AliveRequest) returns (AliveResponse){
+        option (google.api.http) = {
+            get: "/v1/alive"
+            body: "*"
+          };
+    };
 }
