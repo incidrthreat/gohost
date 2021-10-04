@@ -2,6 +2,8 @@ module github.com/incidrthreat/gohost
 
 go 1.17
 
+replace github.com/incidrthreat/gohost/service => ./gohost
+
 require (
 	github.com/golang/protobuf v1.5.2
 	golang.org/x/net v0.0.0-20210929193557-e81a3d93ecf6
