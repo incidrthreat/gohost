@@ -19,7 +19,7 @@ message AliveResponse {
 service GoHost {
     rpc IsAlive (AliveRequest) returns (AliveResponse){
         option (google.api.http) = {
-            get: "/v1/alive"
+            post: "/v1/alive"
             body: "*"
           };
     };
